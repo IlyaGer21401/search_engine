@@ -112,15 +112,8 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() {
     ///Записываем в вектор пути к файлам
     auto it = config["files"].begin();
     while (it != config["files"].end()) {
-        //std::string name_file;
         std::string value = it.value();
         path_files.push_back(value);
-        /*for (int i = 0; i < value.size(); ++i) {
-            name_file += value[i];
-            if (value[i] == '\\')
-                name_file = "";
-        }*/
-        //files.push_back(name_file);
         it++;
     }
 
@@ -142,7 +135,6 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() {
             std::getline(file, line);
             text += line + "\n";
         }
-        //files[i] += "\n" + text;
         files.push_back(text);
         text = "";
         file.close();
@@ -174,10 +166,10 @@ std::map<int, std::string> ConverterJSON::GetNameDocuments() {
     auto it = config["files"].begin();
     while (it != config["files"].end()) {
         std::string name_file; /// Имя файла
-        std::string value = it.value(); /// Считываем путь к файлу
-        for (int i = 0; i < value.size(); ++i) {
-            name_file += value[i];
-            if (value[i] == '\\')
+        std::string path = it.value(); /// Считываем путь к файлу
+        for (int i = 0; i < path.size(); ++i) {
+            name_file += path[i];
+            if (path[i] == '\\')
                 name_file = "";
         }
         m_doc_names.insert(std::pair<int, std::string> (id_doc, name_file));

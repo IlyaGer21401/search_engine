@@ -29,10 +29,10 @@ void Relevance_Calculation(std::vector<std::vector<std::pair<int, float>>> &vec,
     }
     /// Cортировка по релевантности
     if (answer.size() != 1) {
-        int listLength = answer.size();
-        while(listLength--) {
+        int list_length = answer.size();
+        while(list_length--) {
             bool swapped = false;
-            for(int i = 0; i < listLength; i++) {
+            for(int i = 0; i < list_length; i++) {
                 if(answer[i].second < answer[i + 1].second) {
                     std::swap(answer[i], answer[i + 1]);
                     swapped = true;

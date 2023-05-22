@@ -1,7 +1,7 @@
 #include "InvertedIndex.h"
 #include "../INVISIBLE_EXCEPTIONS.h"
 
-std::mutex indexEntry;
+std::mutex index_entry;
 class ThereIsNoSuchWordException : public std::exception {
 public: const char* what() const noexcept override{
         return "There is no such word";
@@ -17,23 +17,23 @@ bool ListOfSeparators (char symbol) {
     return false;
 }
 std::vector<Entry> SortingEntryId (std::vector<Entry> vec){
-    std::vector<Entry> newVec = vec;
+    std::vector<Entry> new_vec = vec;
     if (vec.size() == 1 || vec.size() == 0)
         return vec;
-    int listLength = newVec.size();
-    while(listLength--) {
+    int list_length = new_vec.size();
+    while(list_length--) {
         bool swapped = false;
-        for(int i = 0; i < listLength; i++)
+        for(int i = 0; i < list_length; i++)
         {
-            if(newVec[i].doc_id > newVec[i + 1].doc_id) {
-                std::swap(newVec[i], newVec[i + 1]);
+            if(new_vec[i].doc_id > new_vec[i + 1].doc_id) {
+                std::swap(new_vec[i], new_vec[i + 1]);
                 swapped = true;
             }
         }
         if(!swapped)
             break;
     }
-    return newVec;
+    return new_vec;
 }
 
 void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
@@ -48,7 +48,7 @@ void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
                 if (ListOfSeparators(text[j]) || j == text.size()) {
                     if (word == "")
                         continue;
-                    indexEntry.lock();
+                    index_entry.lock();
                     /// Есть ли такое слово
                     if (indexing.count(word)) {
                         auto it = indexing.find(word);
@@ -71,27 +71,26 @@ void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
                         vec.push_back(entry);
                         indexing.insert(std::pair<std::string, std::vector<Entry>> (word, vec));
                     }
-                    indexEntry.unlock();
+                    index_entry.unlock();
                     word = "";
                 } else { /// Eсли нет, то пишем слово дальше
                     word += text[j];
                 }
             }
-
         }, input_docs[i], i));
     }
     for (int i = 0; i < input_docs.size(); ++i)
         documents[i].join();
     /// Сортировка элементов Entry
     for (auto &it : indexing) {
-        indexEntry.lock();
+        index_entry.lock();
         it.second = SortingEntryId(it.second);
-        indexEntry.unlock();
+        index_entry.unlock();
     }
     freq_dictionary = indexing;
 }
 std::vector<Entry> InvertedIndex::GetWordCount(const std::string &word) {
-    std::vector<Entry> wordEntry;
+    std::vector<Entry> word_entry;
 #if INVISIBLE_EXCEPTIONS
     try {
         if (!freq_dictionary.count(word)) {
@@ -104,8 +103,8 @@ std::vector<Entry> InvertedIndex::GetWordCount(const std::string &word) {
     }
 #else
     if (!freq_dictionary.count(word))
-        return wordEntry;
+        return word_entry;
 #endif
-    wordEntry = freq_dictionary.find(word)->second;
-    return wordEntry;
+    word_entry = freq_dictionary.find(word)->second;
+    return word_entry;
 }

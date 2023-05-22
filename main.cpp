@@ -5,19 +5,19 @@
 using std::cout;
 
 int main() {
-    ConverterJSON readJson;
+    ConverterJSON read_json;
     InvertedIndex index;
 
-    readJson.ClearRequests();
-    std::vector<std::string> text = readJson.GetTextDocuments(); ///Считываем текст документов
-    int limitAnswers = readJson.GetResponsesLimit(); /// Считываем колиество возможных ответов
+    read_json.ClearRequests();
+    std::vector<std::string> text = read_json.GetTextDocuments(); ///Считываем текст документов
+    int limit_answers = read_json.GetResponsesLimit(); /// Считываем колиество возможных ответов
     index.UpdateDocumentBase(text); /// Обновление базы данных (где записаны все ключевые слова,
                                              /// взятые из текстов документов)
     SearchServer server(index);
 
     /// Цикл работы программы
-    cout << readJson.GetNameProgram() << " ";
-    cout << readJson.GetVersionProgram() << "\n";
+    cout << read_json.GetNameProgram() << " ";
+    cout << read_json.GetVersionProgram() << "\n";
     while (true) {
         std::string line;
         cout << "Enter keywords from the document you want to find or enter 'q' to exit:\n";
@@ -25,15 +25,15 @@ int main() {
         if (line == "q" || line == "Q") { /// Проверка на выход
             break;
         } else {
-            readJson.PutRequests(line); /// Записываем запрос
+            read_json.PutRequests(line); /// Записываем запрос
         }
         auto answers = server.search(
-                                readJson.GetRequests(),
-                                limitAnswers,
+                read_json.GetRequests(),
+                limit_answers,
                                 text.size()); /// передаем запросы в поисковый сервер
-        readJson.PutAnswers(answers); /// Публикуем ответы
+        read_json.PutAnswers(answers); /// Публикуем ответы
 
-        std::map<int, std::string> name_doc = readJson.GetNameDocuments(); /// Считываем имена документов
+        std::map<int, std::string> name_doc = read_json.GetNameDocuments(); /// Считываем имена документов
 
         /// Двем ответ user
         auto id = answers.size() - 1; /// номер последнего запроса
@@ -157,17 +157,3 @@ std::cout << str_text << std::endl;
     std::cout << str_text << std::endl;
     delete index;
     */
-/// Сама программа
-/*
-    ConverterJSON json;
-    InvertedIndex index;
-
-    std::vector<std::string> text = json.GetTextDocuments();
-    int limitRequests = json.GetResponsesLimit();
-
-    index.UpdateDocumentBase(text);
-    SearchServer server(index);
-    auto answers = server.search(json.GetRequests());
-    json.putAnswers(answers);
-    return 0;
- */
