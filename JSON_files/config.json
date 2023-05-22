@@ -1,0 +1,19 @@
+{
+  "config": {
+    "name": "Search Engine BINGO",
+    "version": "1.1",
+    "max_responses": 5
+  },
+  "files": [
+    "..\\resource\\A Long Wait.txt",
+    "..\\resource\\A present from the son.txt",
+    "..\\resource\\Fortune and the man.txt",
+    "..\\resource\\Good Manners.txt",
+    "..\\resource\\Helen is Busy.txt",
+    "..\\resource\\Hit the Floor!.txt",
+    "..\\resource\\Messing Up.txt",
+    "..\\resource\\The Circus.txt",
+    "..\\resource\\The Shoebox.txt",
+    "..\\resource\\Wrong car.txt"
+  ]
+}
