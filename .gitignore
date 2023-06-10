@@ -27,10 +27,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# .idea ignore
-*.idea/
-
-# cmake-build-debug ignore
-cmake-build-debug/
-
 # End of https://www.toptal.com/developers/gitignore/api/windows
